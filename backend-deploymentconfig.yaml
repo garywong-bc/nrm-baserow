@@ -1,9 +1,6 @@
-apiVersion: apps/v1
-kind: Deployment
+apiVersion: v1
+kind: DeploymentConfig
 metadata:
-  annotations:
-    kompose.cmd: kompose convert
-    kompose.version: 1.22.0 (955b78124)
   creationTimestamp: null
   labels:
     io.kompose.service: backend
@@ -11,22 +8,19 @@ metadata:
 spec:
   replicas: 1
   selector:
-    matchLabels:
-      io.kompose.service: backend
+    io.kompose.service: backend
   strategy:
+    resources: {}
     type: Recreate
   template:
     metadata:
-      annotations:
-        kompose.cmd: kompose convert
-        kompose.version: 1.22.0 (955b78124)
       creationTimestamp: null
       labels:
         io.kompose.network/baserow_default: "true"
         io.kompose.service: backend
     spec:
       containers:
-        - image: backend
+        - image: ' '
           name: backend
           ports:
             - containerPort: 8000
@@ -39,4 +33,21 @@ spec:
         - name: backend-claim0
           persistentVolumeClaim:
             claimName: backend-claim0
-status: {}
+  test: false
+  triggers:
+    - type: ConfigChange
+    - imageChangeParams:
+        automatic: true
+        containerNames:
+          - backend
+        from:
+          kind: ImageStreamTag
+          name: backend:latest
+      type: ImageChange
+status:
+  availableReplicas: 0
+  latestVersion: 0
+  observedGeneration: 0
+  replicas: 0
+  unavailableReplicas: 0
+  updatedReplicas: 0

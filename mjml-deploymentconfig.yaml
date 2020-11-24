@@ -1,0 +1,45 @@
+apiVersion: v1
+kind: DeploymentConfig
+metadata:
+  creationTimestamp: null
+  labels:
+    io.kompose.service: mjml
+  name: mjml
+spec:
+  replicas: 1
+  selector:
+    io.kompose.service: mjml
+  strategy:
+    resources: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        io.kompose.network/baserow_default: "true"
+        io.kompose.service: mjml
+    spec:
+      containers:
+        - image: ' '
+          name: mjml
+          ports:
+            - containerPort: 28101
+          resources: {}
+      restartPolicy: Always
+  test: false
+  triggers:
+    - type: ConfigChange
+    - imageChangeParams:
+        automatic: true
+        containerNames:
+          - mjml
+        from:
+          kind: ImageStreamTag
+          name: mjml:latest
+      type: ImageChange
+status:
+  availableReplicas: 0
+  latestVersion: 0
+  observedGeneration: 0
+  replicas: 0
+  unavailableReplicas: 0
+  updatedReplicas: 0
