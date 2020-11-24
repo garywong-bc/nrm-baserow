@@ -3,12 +3,15 @@ kind: DeploymentConfig
 metadata:
   creationTimestamp: null
   labels:
-    io.kompose.service: mjml
-  name: mjml
+    io.kompose.service: baserow-mjml
+    app: baserow
+    app.kubernetes.io/part-of: baserow
+    component: baserow-mjml
+  name: baserow-mjml
 spec:
   replicas: 1
   selector:
-    io.kompose.service: mjml
+    io.kompose.service: baserow-mjml
   strategy:
     resources: {}
   template:
@@ -16,11 +19,13 @@ spec:
       creationTimestamp: null
       labels:
         io.kompose.network/baserow_default: "true"
-        io.kompose.service: mjml
+        io.kompose.service: baserow-mjml
+        app: baserow
+        name: baserow-mjml
     spec:
       containers:
-        - image: ' '
-          name: mjml
+        - image: liminspace/mjml-tcpserver:latest
+          name: baserow-mjml
           ports:
             - containerPort: 28101
           resources: {}
@@ -31,10 +36,10 @@ spec:
     - imageChangeParams:
         automatic: true
         containerNames:
-          - mjml
+          - baserow-mjml
         from:
           kind: ImageStreamTag
-          name: mjml:latest
+          name: baserow-mjml:latest
       type: ImageChange
 status:
   availableReplicas: 0

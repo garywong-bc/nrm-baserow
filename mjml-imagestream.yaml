@@ -3,8 +3,11 @@ kind: ImageStream
 metadata:
   creationTimestamp: null
   labels:
-    io.kompose.service: mjml
-  name: mjml
+    io.kompose.service: baserow-mjml
+    app: baserow
+    app.kubernetes.io/part-of: baserow
+    component: baserow-mjml
+  name: baserow-mjml
 spec:
   lookupPolicy:
     local: false
@@ -12,11 +15,9 @@ spec:
     - annotations: null
       from:
         kind: DockerImage
-        name: liminspace/mjml-tcpserver:latest
+        name: docker.io/liminspace/mjml-tcpserver:latest
       generation: null
       importPolicy: {}
-      name: ""
+      name: latest
       referencePolicy:
         type: ""
-status:
-  dockerImageRepository: ""
