@@ -3,17 +3,17 @@ kind: Service
 metadata:
   creationTimestamp: null
   labels:
-    io.kompose.service: baserow-mjml
     app: baserow
     app.kubernetes.io/part-of: baserow
     component: baserow-db
   name: baserow-db
 spec:
   ports:
-    - name: "baserow-db"
+    - name: "5432"
       port: 5432
       targetPort: 5432
   selector:
-    app: baserow
+    app: baserow-db
+    deploymentconfig: baserow-db
 status:
   loadBalancer: {}

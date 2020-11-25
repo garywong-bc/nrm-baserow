@@ -14,6 +14,7 @@ spec:
       port: 28101
       targetPort: 28101
   selector:
-    app: baserow
+    app: baserow-mjml
+    deploymentconfig: baserow-mjml
 status:
   loadBalancer: {}

@@ -10,7 +10,8 @@ metadata:
 spec:
   replicas: 1
   selector:
-    app: baserow
+    app: baserow-backend
+    deploymentconfig: baserow-backend
   strategy:
     resources: {}
     type: Recreate
@@ -19,6 +20,7 @@ spec:
       creationTimestamp: null
       labels:
         app: baserow
+        deploymentconfig: baserow-backend
     spec:
       containers:
         - image: ' '

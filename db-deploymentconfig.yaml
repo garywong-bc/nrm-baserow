@@ -9,18 +9,14 @@ metadata:
     app: baserow
     app.kubernetes.io/part-of: baserow
     component: baserow-db
-    io.kompose.service: baserow-db
     template: postgresql-persistent-template
-    template.openshift.io/template-instance-owner: 10c0fbd1-2e94-11eb-9613-0050568348cc
   name: baserow-db
-  namespace: csnr-devops-lab-deploy
-  resourceVersion: '2293371999'
-  selfLink: /apis/apps.openshift.io/v1/namespaces/csnr-devops-lab-deploy/deploymentconfigs/baserow-db
 spec:
   replicas: 1
   revisionHistoryLimit: 10
   selector:
-    name: baserow-db
+    app: baserow-db
+    deploymentconfig: baserow-db
   strategy:
     activeDeadlineSeconds: 21600
     recreateParams:
@@ -31,8 +27,8 @@ spec:
     metadata:
       creationTimestamp: null
       labels:
-        app: baserow
-        name: baserow-db
+        app: baserow-db
+        deploymentconfig: baserow-db
     spec:
       containers:
       - env:

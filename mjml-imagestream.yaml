@@ -9,6 +9,9 @@ metadata:
     component: baserow-mjml
   name: baserow-mjml
 spec:
+  selector:
+    app: baserow-mjml
+    deploymentconfig: baserow-mjml
   lookupPolicy:
     local: false
   tags:

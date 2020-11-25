@@ -13,6 +13,9 @@ spec:
     to:
       kind: ImageStreamTag
       name: baserow-backend:latest
+  selector:
+    app: baserow-backend
+    deploymentconfig: baserow-backend
   source:
     dockerfile: |
       FROM python:3.6

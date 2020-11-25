@@ -14,4 +14,7 @@ spec:
   resources:
     requests:
       storage: 100Mi
+  selector:
+    app: baserow-backend
+    deploymentconfig: baserow-backend
 status: {}

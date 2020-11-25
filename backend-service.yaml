@@ -14,5 +14,6 @@ spec:
       targetPort: 8000
   selector:
     app: baserow-backend
+    deploymentconfig: baserow-backend
 status:
   loadBalancer: {}
