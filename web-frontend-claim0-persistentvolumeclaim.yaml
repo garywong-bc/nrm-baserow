@@ -6,7 +6,6 @@ metadata:
     app: baserow
     app.kubernetes.io/part-of: baserow
     component: baserow-web-frontend
-    io.kompose.service: baserow-web-frontend-claim0
   name: baserow-web-frontend-claim0
 spec:
   selector:

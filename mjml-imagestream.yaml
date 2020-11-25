@@ -3,7 +3,6 @@ kind: ImageStream
 metadata:
   creationTimestamp: null
   labels:
-    io.kompose.service: baserow-mjml
     app: baserow
     app.kubernetes.io/part-of: baserow
     component: baserow-mjml

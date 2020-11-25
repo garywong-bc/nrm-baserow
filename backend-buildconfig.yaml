@@ -23,9 +23,10 @@ spec:
       WORKDIR /backend
       RUN git clone https://github.com/derekroberts/baserow.git /tmp/baserow && \
           mv /tmp/baserow/backend/* . && \
-          rm -rf /tmp/baserow
+          rm -rf /tmp/baserow && \
+          chmod -R 777 .
 
-      ENV PYTHONPATH $PYTHONPATH:/app/backend/src
+      ENV PYTHONPATH $PYTHONPATH:/backend/src
       ENV DJANGO_SETTINGS_MODULE='baserow.config.settings.dev'
 
       RUN apt-get update

@@ -3,7 +3,6 @@ kind: PersistentVolumeClaim
 metadata:
   creationTimestamp: null
   labels:
-    io.kompose.service: baserow-backend-claim0
     app: baserow
     app.kubernetes.io/part-of: baserow
     component: baserow-backend
