@@ -3,8 +3,11 @@ kind: ImageStream
 metadata:
   creationTimestamp: null
   labels:
-    io.kompose.service: web-frontend
-  name: web-frontend
+    app: baserow
+    app.kubernetes.io/part-of: baserow
+    component: baserow-web-frontend
+    io.kompose.service: baserow-web-frontend
+  name: baserow-web-frontend
 spec:
   lookupPolicy:
     local: false

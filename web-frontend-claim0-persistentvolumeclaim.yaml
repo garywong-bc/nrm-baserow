@@ -3,8 +3,11 @@ kind: PersistentVolumeClaim
 metadata:
   creationTimestamp: null
   labels:
-    io.kompose.service: web-frontend-claim0
-  name: web-frontend-claim0
+    app: baserow
+    app.kubernetes.io/part-of: baserow
+    component: baserow-web-frontend
+    io.kompose.service: baserow-web-frontend-claim0
+  name: baserow-web-frontend-claim0
 spec:
   accessModes:
     - ReadWriteOnce
