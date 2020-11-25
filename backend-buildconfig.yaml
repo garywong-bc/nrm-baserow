@@ -20,9 +20,10 @@ spec:
     dockerfile: |
       FROM python:3.6
 
-      WORKDIR /backend
-      RUN git clone https://github.com/derekroberts/baserow.git . && mv backend/* .
+      WORKDIR /app
+      RUN git clone https://github.com/derekroberts/baserow.git .
 
+      WORKDIR /app/backend
       ENV PYTHONPATH $PYTHONPATH:/backend/src
       ENV DJANGO_SETTINGS_MODULE='baserow.config.settings.dev'
 
