@@ -9,6 +9,9 @@ metadata:
     io.kompose.service: baserow-web-frontend-claim0
   name: baserow-web-frontend-claim0
 spec:
+  selector:
+    app: baserow-web-frontend
+    deploymentconfig: baserow-web-frontend
   accessModes:
     - ReadWriteOnce
   resources:

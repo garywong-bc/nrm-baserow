@@ -13,6 +13,9 @@ spec:
     to:
       kind: ImageStreamTag
       name: baserow-web-frontend:latest
+  selector:
+    app: baserow-web-frontend
+    deploymentconfig: baserow-web-frontend
   source:
     dockerfile: |
       FROM node:10
