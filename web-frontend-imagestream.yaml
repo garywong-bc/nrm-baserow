@@ -6,20 +6,4 @@ metadata:
     app: baserow
     app.kubernetes.io/part-of: baserow
     component: baserow-web-frontend
-    io.kompose.service: baserow-web-frontend
   name: baserow-web-frontend
-spec:
-  lookupPolicy:
-    local: false
-  tags:
-    - annotations: null
-      from:
-        kind: DockerImage
-        name: web-frontend
-      generation: null
-      importPolicy: {}
-      name: ""
-      referencePolicy:
-        type: ""
-status:
-  dockerImageRepository: ""
