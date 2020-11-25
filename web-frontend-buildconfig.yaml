@@ -20,15 +20,13 @@ spec:
     dockerfile: |
       FROM node:10
 
-      WORKDIR /app
-      RUN git clone https://github.com/derekroberts/baserow.git .
-
-      WORKDIR /app/web-frontend
+      WORKDIR /web-frontend
+      RUN git clone https://github.com/derekroberts/baserow.git /tmp/baserow && \
+          mv /tmp/baserow/web-frontend/* . && \
+          rm -rf /tmp/baserow
 
       RUN apt-get update
-      RUN apt-get -y install make
-      RUN apt-get -y install curl
-      RUN apt-get -y install gnupg2
+      RUN apt-get -y install make curl gnupg2
 
       CMD tail -f /dev/null
 

@@ -20,20 +20,18 @@ spec:
     dockerfile: |
       FROM python:3.6
 
-      WORKDIR /app
-      RUN git clone https://github.com/derekroberts/baserow.git .
+      WORKDIR /backend
+      RUN git clone https://github.com/derekroberts/baserow.git /tmp/baserow && \
+          mv /tmp/baserow/backend/* . && \
+          rm -rf /tmp/baserow
 
-      WORKDIR /app/backend
-      ENV PYTHONPATH $PYTHONPATH:/backend/src
+      ENV PYTHONPATH $PYTHONPATH:/app/backend/src
       ENV DJANGO_SETTINGS_MODULE='baserow.config.settings.dev'
 
       RUN apt-get update
-      RUN apt-get -y install make
-      RUN apt-get -y install curl
-      RUN apt-get -y install gnupg2
+      RUN apt-get -y install make gnupg2
 
       RUN make install-dependencies
-      RUN make install-dev-dependencies
 
       CMD tail -f /dev/null
 
