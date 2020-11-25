@@ -1,0 +1,46 @@
+apiVersion: v1
+kind: BuildConfig
+metadata:
+  annotations:
+    openshift.io/generated-by: OpenShiftNewBuild
+  labels:
+    app: baserow
+    app.kubernetes.io/part-of: baserow
+    component: baserow-backend
+  name: baserow-backend
+spec:
+  output:
+    to:
+      kind: ImageStreamTag
+      name: baserow-backend:latest
+  source:
+    dockerfile: |
+      FROM python:3.6
+
+      WORKDIR /backend
+      RUN git clone https://github.com/derekroberts/baserow.git . && mv backend/* .
+
+      ENV PYTHONPATH $PYTHONPATH:/backend/src
+      ENV DJANGO_SETTINGS_MODULE='baserow.config.settings.dev'
+
+      RUN apt-get update
+      RUN apt-get -y install make
+      RUN apt-get -y install curl
+      RUN apt-get -y install gnupg2
+
+      RUN make install-dependencies
+      RUN make install-dev-dependencies
+
+      CMD tail -f /dev/null
+
+    type: Dockerfile
+  strategy:
+    dockerStrategy:
+      from:
+        kind: DockerImage
+        name: python:3.6
+    type: Docker
+  triggers:
+    - type: ConfigChange
+    - imageChange: {}
+      type: ImageChange
