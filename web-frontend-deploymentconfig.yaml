@@ -3,12 +3,14 @@ kind: DeploymentConfig
 metadata:
   creationTimestamp: null
   labels:
-    io.kompose.service: web-frontend
-  name: web-frontend
+    app: baserow
+    app.kubernetes.io/part-of: baserow
+    component: baserow-web-frontend
+  name: baserow-web-frontend
 spec:
   replicas: 1
   selector:
-    io.kompose.service: web-frontend
+    app: baserow
   strategy:
     resources: {}
     type: Recreate
@@ -16,33 +18,32 @@ spec:
     metadata:
       creationTimestamp: null
       labels:
-        io.kompose.network/baserow_default: "true"
-        io.kompose.service: web-frontend
+        app: baserow
     spec:
       containers:
         - image: ' '
-          name: web-frontend
+          name: baserow-web-frontend
           ports:
             - containerPort: 3000
           resources: {}
           volumeMounts:
             - mountPath: /web-frontend
-              name: web-frontend-claim0
+              name: baserow-web-frontend-claim0
       restartPolicy: Always
       volumes:
-        - name: web-frontend-claim0
+        - name: baserow-web-frontend-claim0
           persistentVolumeClaim:
-            claimName: web-frontend-claim0
+            claimName: baserow-web-frontend-claim0
   test: false
   triggers:
     - type: ConfigChange
     - imageChangeParams:
         automatic: true
         containerNames:
-          - web-frontend
+          - baserow-web-frontend
         from:
           kind: ImageStreamTag
-          name: web-frontend:latest
+          name: baserow-web-frontend:latest
       type: ImageChange
 status:
   availableReplicas: 0
