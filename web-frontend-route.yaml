@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Route
+metadata:
+  creationTimestamp: null
+  labels:
+    app: baserow
+    app.kubernetes.io/part-of: baserow
+    component: baserow-web-frontend
+  name: baserow-web-frontend
+spec:
+  host: baserow-web-frontend-csnr-devops-lab-deploy.pathfinder.gov.bc.ca
+  port:
+    targetPort: "baserow-web-frontend-3000"
+  to:
+    kind: Service
+    name: baserow-web-frontend
+  tls:
+    termination: edge
