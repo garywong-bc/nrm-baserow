@@ -1,0 +1,40 @@
+apiVersion: v1
+kind: BuildConfig
+metadata:
+  annotations:
+    openshift.io/generated-by: OpenShiftNewBuild
+  labels:
+    app: baserow
+    app.kubernetes.io/part-of: baserow
+    component: baserow-web-frontend
+  name: baserow-web-frontend
+spec:
+  output:
+    to:
+      kind: ImageStreamTag
+      name: baserow-web-frontend:latest
+  source:
+    dockerfile: |
+      FROM node:10
+
+      WORKDIR /web-frontend
+      RUN git clone https://github.com/derekroberts/baserow.git . && mv web-frontend/* .
+
+      RUN apt-get update
+      RUN apt-get -y install make
+      RUN apt-get -y install curl
+      RUN apt-get -y install gnupg2
+
+      CMD tail -f /dev/null
+
+    type: Dockerfile
+  strategy:
+    dockerStrategy:
+      from:
+        kind: DockerImage
+        name: node:10
+    type: Docker
+  triggers:
+    - type: ConfigChange
+    - imageChange: {}
+      type: ImageChange
