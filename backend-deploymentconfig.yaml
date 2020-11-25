@@ -3,12 +3,14 @@ kind: DeploymentConfig
 metadata:
   creationTimestamp: null
   labels:
-    io.kompose.service: backend
-  name: backend
+    app: baserow
+    app.kubernetes.io/part-of: baserow
+    component: baserow-backend
+  name: baserow-backend
 spec:
   replicas: 1
   selector:
-    io.kompose.service: backend
+    app: baserow
   strategy:
     resources: {}
     type: Recreate
@@ -16,33 +18,32 @@ spec:
     metadata:
       creationTimestamp: null
       labels:
-        io.kompose.network/baserow_default: "true"
-        io.kompose.service: backend
+        app: baserow
     spec:
       containers:
         - image: ' '
-          name: backend
+          name: baserow-backend
           ports:
             - containerPort: 8000
           resources: {}
           volumeMounts:
             - mountPath: /backend
-              name: backend-claim0
+              name: baserow-backend-claim0
       restartPolicy: Always
       volumes:
-        - name: backend-claim0
+        - name: baserow-backend-claim0
           persistentVolumeClaim:
-            claimName: backend-claim0
+            claimName: baserow-backend-claim0
   test: false
   triggers:
     - type: ConfigChange
     - imageChangeParams:
         automatic: true
         containerNames:
-          - backend
+          - baserow-backend
         from:
           kind: ImageStreamTag
-          name: backend:latest
+          name: baserow-backend:latest
       type: ImageChange
 status:
   availableReplicas: 0

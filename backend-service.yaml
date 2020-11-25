@@ -3,14 +3,16 @@ kind: Service
 metadata:
   creationTimestamp: null
   labels:
-    io.kompose.service: backend
-  name: backend
+    app: baserow
+    app.kubernetes.io/part-of: baserow
+    component: baserow-backend
+  name: baserow-backend
 spec:
   ports:
-    - name: "8000"
+    - name: "baserow-backend"
       port: 8000
       targetPort: 8000
   selector:
-    io.kompose.service: backend
+    app: baserow-backend
 status:
   loadBalancer: {}
