@@ -9,11 +9,11 @@ metadata:
   name: baserow-backend
 spec:
   ports:
-    - name: "baserow-backend"
+    - name: "baserow-backend-8000"
       port: 8000
       targetPort: 8000
   selector:
-    app: baserow-backend
+    app: baserow
     deploymentconfig: baserow-backend
 status:
   loadBalancer: {}
