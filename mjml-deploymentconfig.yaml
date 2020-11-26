@@ -1,25 +1,22 @@
 apiVersion: v1
 kind: DeploymentConfig
 metadata:
-  creationTimestamp: null
   labels:
     app: baserow
-    app.kubernetes.io/part-of: baserow
     component: baserow-mjml
   name: baserow-mjml
 spec:
   replicas: 1
   selector:
-    app: baserow-mjml
+    app: baserow
     deploymentconfig: baserow-mjml
   strategy:
     resources: {}
   template:
     metadata:
-      creationTimestamp: null
       labels:
         app: baserow
-        name: baserow-mjml
+        deploymentconfig: baserow-mjml
     spec:
       containers:
         - image: liminspace/mjml-tcpserver:latest

@@ -1,9 +1,7 @@
 apiVersion: v1
 kind: ImageStream
 metadata:
-  creationTimestamp: null
   labels:
     app: baserow
-    app.kubernetes.io/part-of: baserow
     component: baserow-backend
   name: baserow-backend

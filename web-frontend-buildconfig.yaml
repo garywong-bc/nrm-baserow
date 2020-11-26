@@ -1,11 +1,8 @@
 apiVersion: v1
 kind: BuildConfig
 metadata:
-  annotations:
-    openshift.io/generated-by: OpenShiftNewBuild
   labels:
     app: baserow
-    app.kubernetes.io/part-of: baserow
     component: baserow-web-frontend
   name: baserow-web-frontend
 spec:

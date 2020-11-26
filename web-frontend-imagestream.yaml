@@ -1,13 +1,7 @@
 apiVersion: v1
 kind: ImageStream
 metadata:
-  creationTimestamp: null
   labels:
     app: baserow
-    app.kubernetes.io/part-of: baserow
     component: baserow-web-frontend
   name: baserow-web-frontend
-spec:
-  selector:
-    app: baserow-web-frontend
-    deploymentconfig: baserow-web-frontend

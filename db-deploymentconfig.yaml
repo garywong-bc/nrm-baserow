@@ -1,13 +1,8 @@
 apiVersion: apps.openshift.io/v1
 kind: DeploymentConfig
 metadata:
-  annotations:
-    template.alpha.openshift.io/wait-for-ready: "true"
-  creationTimestamp: null
-  generation: 1
   labels:
     app: baserow
-    app.kubernetes.io/part-of: baserow
     component: baserow-db
     template: postgresql-persistent-template
   name: baserow-db
@@ -15,7 +10,7 @@ spec:
   replicas: 1
   revisionHistoryLimit: 10
   selector:
-    app: baserow-db
+    app: baserow
     deploymentconfig: baserow-db
   strategy:
     activeDeadlineSeconds: 21600
@@ -27,7 +22,7 @@ spec:
     metadata:
       creationTimestamp: null
       labels:
-        app: baserow-db
+        app: baserow
         deploymentconfig: baserow-db
     spec:
       containers:
