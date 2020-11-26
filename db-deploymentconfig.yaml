@@ -31,17 +31,17 @@ spec:
           valueFrom:
             secretKeyRef:
               key: database-user
-              name: baserow-psql
+              name: baserow-db
         - name: POSTGRESQL_PASSWORD
           valueFrom:
             secretKeyRef:
               key: database-password
-              name: baserow-psql
+              name: baserow-db
         - name: POSTGRESQL_DATABASE
           valueFrom:
             secretKeyRef:
               key: database-name
-              name: baserow-psql
+              name: baserow-db
         image: docker-registry.default.svc:5000/openshift/postgresql@sha256:094097e33f6d3cd498194ad7dc7bdb32f3d62b6a56ad8ae425770cd4050ad611
         imagePullPolicy: IfNotPresent
         livenessProbe:
@@ -77,16 +77,16 @@ spec:
         terminationMessagePolicy: File
         volumeMounts:
         - mountPath: /var/lib/pgsql/data
-          name: baserow-psql-data
+          name: baserow-db-pvc
       dnsPolicy: ClusterFirst
       restartPolicy: Always
       schedulerName: default-scheduler
       securityContext: {}
       terminationGracePeriodSeconds: 30
       volumes:
-      - name: baserow-psql-data
+      - name: baserow-db-pvc
         persistentVolumeClaim:
-          claimName: baserow-psql
+          claimName: baserow-db-pvc
   test: false
   triggers:
   - imageChangeParams:
