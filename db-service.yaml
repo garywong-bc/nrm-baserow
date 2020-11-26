@@ -1,19 +1,14 @@
 apiVersion: v1
 kind: Service
 metadata:
-  creationTimestamp: null
   labels:
     app: baserow
-    app.kubernetes.io/part-of: baserow
     component: baserow-db
   name: baserow-db
 spec:
   ports:
-    - name: "baserow-db-5432"
+    - name: "5432"
       port: 5432
-      targetPort: 5432
   selector:
-    app: baserow-db
+    app: baserow
     deploymentconfig: baserow-db
-status:
-  loadBalancer: {}

@@ -1,19 +1,15 @@
 apiVersion: v1
 kind: Service
 metadata:
-  creationTimestamp: null
   labels:
     app: baserow
-    app.kubernetes.io/part-of: baserow
     component: baserow-mjml
   name: baserow-mjml
 spec:
   ports:
-    - name: "baserow-mjml"
+    - name: "28101"
       port: 28101
       targetPort: 28101
   selector:
-    app: baserow-mjml
+    app: baserow
     deploymentconfig: baserow-mjml
-status:
-  loadBalancer: {}
