@@ -1,16 +1,11 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  creationTimestamp: null
   labels:
     app: baserow
-    app.kubernetes.io/part-of: baserow
     component: baserow-web-frontend
-  name: baserow-web-frontend-claim0
+  name: baserow-web-frontend-pvc
 spec:
-  selector:
-    app: baserow-web-frontend
-    deploymentconfig: baserow-web-frontend
   accessModes:
     - ReadWriteOnce
   resources:
