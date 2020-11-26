@@ -20,7 +20,25 @@ spec:
         deploymentconfig: baserow-backend
     spec:
       containers:
-        - image: ' '
+        - env:
+            - name: POSTGRESQL_USER
+              valueFrom:
+                secretKeyRef:
+                  key: database-user
+                  name: baserow-db
+            - name: POSTGRESQL_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  key: database-password
+                  name: baserow-db
+            - name: POSTGRESQL_DATABASE
+              valueFrom:
+                secretKeyRef:
+                  key: database-name
+                  name: baserow-db
+            - name: DATABASE_HOST
+              value: baserow-db
+          image: ' '
           name: baserow-backend
           ports:
             - containerPort: 8000
