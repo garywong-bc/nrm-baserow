@@ -24,8 +24,9 @@ spec:
 
       RUN apt-get update
       RUN apt-get -y install make curl gnupg2
+      RUN yarn install --network-timeout 100000
 
-      CMD yarn install && yarn run dev
+      CMD yarn run dev
 
     type: Dockerfile
   strategy:
