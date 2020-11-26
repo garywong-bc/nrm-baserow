@@ -15,11 +15,9 @@ spec:
     deploymentconfig: baserow-web-frontend
   source:
     dockerfile: |
-      FROM python:3.6
-
       WORKDIR /backend
       RUN git clone https://github.com/derekroberts/baserow.git /tmp/baserow && \
-          mv /tmp/baserow/backend/* . && \
+          cp -rT /tmp/baserow/backend/* . && \
           rm -rf /tmp/baserow && \
           chmod -R 777 .
 

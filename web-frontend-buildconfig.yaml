@@ -15,11 +15,9 @@ spec:
     deploymentconfig: baserow-web-frontend
   source:
     dockerfile: |
-      FROM node:10
-
       WORKDIR /web-frontend
       RUN git clone https://github.com/derekroberts/baserow.git /tmp/baserow && \
-          mv /tmp/baserow/web-frontend/* . && \
+          cp -rT /tmp/baserow/web-frontend . && \
           rm -rf /tmp/baserow
 
       RUN apt-get update
