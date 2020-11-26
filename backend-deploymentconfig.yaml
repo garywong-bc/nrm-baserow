@@ -25,14 +25,7 @@ spec:
           ports:
             - containerPort: 8000
           resources: {}
-          volumeMounts:
-            - mountPath: /backend
-              name: baserow-backend-claim0
       restartPolicy: Always
-      volumes:
-        - name: baserow-backend-claim0
-          persistentVolumeClaim:
-            claimName: baserow-backend-claim0
   test: false
   triggers:
     - type: ConfigChange

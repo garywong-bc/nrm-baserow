@@ -3,21 +3,19 @@ kind: DeploymentConfig
 metadata:
   labels:
     app: baserow
-    app.kubernetes.io/part-of: baserow
     component: baserow-web-frontend
   name: baserow-web-frontend
 spec:
   replicas: 1
   selector:
-    app: baserow-web-frontend
+    app: baserow
     deploymentconfig: baserow-web-frontend
   strategy:
     resources: {}
-    type: Recreate
   template:
     metadata:
       labels:
-        app: baserow-web-frontend
+        app: baserow
         deploymentconfig: baserow-web-frontend
     spec:
       containers:
@@ -26,14 +24,7 @@ spec:
           ports:
             - containerPort: 3000
           resources: {}
-          volumeMounts:
-            - mountPath: /web-frontend
-              name: baserow-web-frontend-claim0
       restartPolicy: Always
-      volumes:
-        - name: baserow-web-frontend-claim0
-          persistentVolumeClaim:
-            claimName: baserow-web-frontend-claim0
   test: false
   triggers:
     - type: ConfigChange
