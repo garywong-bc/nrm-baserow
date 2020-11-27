@@ -31,7 +31,7 @@ spec:
 
       RUN make install-dependencies
 
-      CMD python src/baserow/manage.py runserver 0.0.0.0:8000
+      CMD gunicorn --workers=3 -b 0.0.0.0:8000 baserow.config.wsgi
 
     type: Dockerfile
   strategy:
