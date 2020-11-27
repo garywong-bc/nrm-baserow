@@ -5,3 +5,14 @@ metadata:
     app: baserow
     component: baserow-mjml
   name: baserow-mjml
+spec:
+  lookupPolicy:
+    local: false
+  tags:
+    - from:
+        kind: DockerImage
+        name: docker.io/liminspace/mjml-tcpserver:latest
+      importPolicy: {}
+      name: latest
+      referencePolicy:
+        type: ""
