@@ -22,11 +22,14 @@ spec:
           cp -rT /tmp/baserow/web-frontend . && \
           rm -rf /tmp/baserow
 
-      RUN apt-get update
-      RUN apt-get -y install make curl gnupg2
-      RUN yarn install --network-timeout 100000
+      RUN npm install
+      RUN npm run build
 
-      CMD yarn run dev
+      RUN mkdir /.npm && \
+          chown -R 1000870000:0 /.npm && \
+          chmod -R 777 /web-frontend
+
+      CMD npm run start
 
     type: Dockerfile
   strategy:
