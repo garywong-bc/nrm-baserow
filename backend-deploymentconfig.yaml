@@ -68,6 +68,8 @@ spec:
                   name: baserow-db
             - name: DATABASE_HOST
               value: baserow-db
+            - name: MJML_SERVER_HOST
+              value: baserow-mjml
           image: ' '
           name: baserow-backend
           ports:
