@@ -19,7 +19,10 @@ spec:
         deploymentconfig: baserow-web-frontend
     spec:
       containers:
-        - image: " "
+        - env:
+          - name: PRIVATE_BACKEND_URL
+            value: baserow-backend:8000
+          image: " "
           name: baserow-web-frontend
           ports:
             - containerPort: 3000
