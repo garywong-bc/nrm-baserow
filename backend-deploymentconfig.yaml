@@ -70,6 +70,12 @@ spec:
               value: baserow-db
             - name: MJML_SERVER_HOST
               value: baserow-mjml
+            - name: PUBLIC_WEB_FRONTEND_URL
+              value: http://baserow-web-frontend:3000
+            - name: PUBLIC_BACKEND_URL
+              value: https://baserow-backend-csnr-devops-lab-deploy.pathfinder.gov.bc.ca
+            - name: PRIVATE_BACKEND_URL
+              value: http://baserow-backend:8000
           image: ' '
           name: baserow-backend
           ports:
