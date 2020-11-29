@@ -15,6 +15,8 @@ parameters:
     value: latest
   - name: SRC_GIT_URL
     value: https://gitlab.com/bramw/baserow.git
+  - name: SRC_RELEASE
+    value: 0.5.0
 objects:
   - apiVersion: v1
     kind: ImageStream
@@ -48,9 +50,12 @@ objects:
           FROM node:10
 
           WORKDIR /web-frontend
-          RUN git clone ${SRC_GIT_URL} /tmp/baserow && \
+          RUN git clone ${SRC_GIT_URL} -b ${SRC_RELEASE} /tmp/baserow && \
               cp -rT /tmp/baserow/web-frontend . && \
               rm -rf /tmp/baserow
+
+          RUN apt-get update
+          RUN apt-get -y install make curl gnupg2
 
           RUN npm install
           RUN npm run build
