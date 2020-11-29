@@ -55,25 +55,6 @@ objects:
                 - "/backend/src/baserow/manage.py"
                 - "migrate"
             containerName: ${APP}-${COMPONENT}-migrate
-            env:
-              - name: POSTGRESQL_USER
-                valueFrom:
-                  secretKeyRef:
-                    key: database-user
-                    name: ${APP}-${DATABASE_COMPONENT}
-              - name: POSTGRESQL_PASSWORD
-                valueFrom:
-                  secretKeyRef:
-                    key: database-password
-                    name: ${APP}-${DATABASE_COMPONENT}
-              - name: POSTGRESQL_DATABASE
-                valueFrom:
-                  secretKeyRef:
-                    key: database-name
-                    name: ${APP}-${DATABASE_COMPONENT}
-              - name: DATABASE_HOST
-                value: ${APP}-${DATABASE_COMPONENT}
-        resources: {}
         activeDeadlineSeconds: 21600
       template:
         metadata:
@@ -108,11 +89,10 @@ objects:
                   value: https://${APP}-${COMPONENT}-${APP_NAMESPACE}.${DOMAIN}
                 - name: PRIVATE_BACKEND_URL
                   value: http://${APP}-${COMPONENT}:${APP_PORT}
-              image: ' '
+              image: " "
               name: ${APP}-${COMPONENT}
               ports:
                 - containerPort: ${{APP_PORT}}
-              resources: {}
           restartPolicy: Always
       test: false
       triggers:
