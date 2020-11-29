@@ -1,45 +1,92 @@
+---
 apiVersion: v1
-kind: DeploymentConfig
-metadata:
-  labels:
-    app: baserow
-    component: baserow-mjml
-  name: baserow-mjml
-spec:
-  replicas: 1
-  selector:
-    app: baserow
-    deploymentconfig: baserow-mjml
-  strategy:
-    resources: {}
-  template:
+kind: Template
+parameters:
+  - name: APP
+    value: baserow
+  - name: COMPONENT
+    value: mjml
+  - name: IMG_TAG
+    value: latest
+labels:
+  app: ${APP}
+  component: ${COMPONENT}
+objects:
+  - apiVersion: v1
+    kind: ImageStream
     metadata:
       labels:
-        app: baserow
-        deploymentconfig: baserow-mjml
+        app: ${APP}
+        component: ${APP}-${COMPONENT}
+      name: ${APP}-${COMPONENT}
     spec:
-      containers:
-        - image: liminspace/mjml-tcpserver:latest
-          name: baserow-mjml
-          ports:
-            - containerPort: 28101
-          resources: {}
-      restartPolicy: Always
-  test: false
-  triggers:
-    - type: ConfigChange
-    - imageChangeParams:
-        automatic: true
-        containerNames:
-          - baserow-mjml
-        from:
-          kind: ImageStreamTag
-          name: baserow-mjml:latest
-      type: ImageChange
-status:
-  availableReplicas: 0
-  latestVersion: 0
-  observedGeneration: 0
-  replicas: 0
-  unavailableReplicas: 0
-  updatedReplicas: 0
+      lookupPolicy:
+        local: false
+      tags:
+        - from:
+            kind: DockerImage
+            name: docker.io/liminspace/mjml-tcpserver:${IMG_TAG}
+          importPolicy: {}
+          name: latest
+          referencePolicy:
+            type: ""
+  - apiVersion: v1
+    kind: DeploymentConfig
+    metadata:
+      labels:
+        app: ${APP}
+        component: ${APP}-${COMPONENT}
+      name: ${APP}-${COMPONENT}
+    spec:
+      replicas: 1
+      selector:
+        app: ${APP}
+        deploymentconfig: ${APP}-${COMPONENT}
+      strategy:
+        resources: {}
+      template:
+        metadata:
+          labels:
+            app: ${APP}
+            deploymentconfig: ${APP}-${COMPONENT}
+        spec:
+          containers:
+            - image: liminspace/mjml-tcpserver:${IMG_TAG}
+              name: ${APP}-${COMPONENT}
+              ports:
+                - containerPort: 28101
+              resources: {}
+          restartPolicy: Always
+      test: false
+      triggers:
+        - type: ConfigChange
+        - imageChangeParams:
+            automatic: true
+            containerNames:
+              - ${APP}-${COMPONENT}
+            from:
+              kind: ImageStreamTag
+              name: ${APP}-${COMPONENT}:${IMG_TAG}
+          type: ImageChange
+    status:
+      availableReplicas: 0
+      latestVersion: 0
+      observedGeneration: 0
+      replicas: 0
+      unavailableReplicas: 0
+      updatedReplicas: 0
+  - apiVersion: v1
+    kind: Service
+    metadata:
+      labels:
+        app: ${APP}
+        component: ${APP}-${COMPONENT}
+      name: ${APP}-${COMPONENT}
+    spec:
+      ports:
+        - name: "28101"
+          port: 28101
+          targetPort: 28101
+      selector:
+        app: ${APP}
+        deploymentconfig: ${APP}-${COMPONENT}
