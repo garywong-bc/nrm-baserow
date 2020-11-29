@@ -57,7 +57,8 @@ objects:
           RUN apt-get update
           RUN apt-get -y install make curl gnupg2
 
-          RUN npm install vue-server-renderer@2.6.11 --save
+          # Bug workaround (FATAL Vue packages version mismatch)
+          RUN npm install vue-server-renderer@2.6.12 --save
           RUN npm install
           RUN npm run build
 
