@@ -28,7 +28,7 @@ objects:
     metadata:
       labels:
         app: ${APP}
-        component: ${APP}-${COMPONENT}
+        component: ${COMPONENT}
         template: postgresql-persistent-template
       name: ${APP}-${COMPONENT}
     spec:
@@ -43,7 +43,7 @@ objects:
     metadata:
       labels:
         app: ${APP}
-        component: ${APP}-${COMPONENT}
+        component: ${COMPONENT}
         template: postgresql-persistent-template
       name: ${APP}-${COMPONENT}
     spec:
@@ -151,7 +151,7 @@ objects:
     metadata:
       labels:
         app: ${APP}
-        component: ${APP}-${COMPONENT}
+        component: ${COMPONENT}
       name: ${APP}-${COMPONENT}
     spec:
       ports:

@@ -27,7 +27,7 @@ objects:
     metadata:
       labels:
         app: ${APP}
-        component: ${APP}-${COMPONENT}
+        component: ${COMPONENT}
       name: ${APP}-${COMPONENT}
     spec:
       replicas: 1
@@ -79,7 +79,7 @@ objects:
     metadata:
       labels:
         app: ${APP}
-        component: ${APP}-${COMPONENT}
+        component: ${COMPONENT}
       name: ${APP}-${COMPONENT}
     spec:
       ports:
@@ -93,7 +93,7 @@ objects:
     metadata:
       labels:
         app: ${APP}
-        component: ${APP}-${COMPONENT}
+        component: ${COMPONENT}
       name: ${APP}-${COMPONENT}
     spec:
       host: ${APP}-${COMPONENT}-${NAMESPACE}.${DOMAIN}

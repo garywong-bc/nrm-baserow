@@ -23,14 +23,14 @@ objects:
     metadata:
       labels:
         app: ${APP}
-        component: ${APP}-${COMPONENT}
+        component: ${COMPONENT}
       name: ${APP}-${COMPONENT}
   - apiVersion: v1
     kind: BuildConfig
     metadata:
       labels:
         app: ${APP}
-        component: ${APP}-${COMPONENT}
+        component: ${COMPONENT}
       name: ${APP}-${COMPONENT}
     spec:
       output:
