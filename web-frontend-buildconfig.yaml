@@ -1,49 +1,74 @@
+---
 apiVersion: v1
-kind: BuildConfig
-metadata:
-  labels:
-    app: baserow
-    component: baserow-web-frontend
-  name: baserow-web-frontend
-spec:
-  output:
-    to:
-      kind: ImageStreamTag
-      name: baserow-web-frontend:latest
-  resources:
-    limits:
-      memory: 4Gi
-    requests:
-      memory: 2Gi
-  selector:
-    app: baserow-web-frontend
-    deploymentconfig: baserow-web-frontend
-  source:
-    dockerfile: |
-      FROM node:10
+kind: Template
+labels:
+  app: ${APP}
+  component: ${COMPONENT}
+parameters:
+  - name: APP
+    value: baserow
+  - name: COMPONENT
+    value: web-frontend
+  - name: IMG_IS_TAG
+    value: latest
+  - name: IMG_SRC_TAG
+    value: latest
+  - name: SRC_GIT_URL
+    value: https://gitlab.com/bramw/baserow.git
+objects:
+  - apiVersion: v1
+    kind: ImageStream
+    metadata:
+      labels:
+        app: ${APP}
+        component: ${APP}-${COMPONENT}
+      name: ${APP}-${COMPONENT}
+  - apiVersion: v1
+    kind: BuildConfig
+    metadata:
+      labels:
+        app: ${APP}
+        component: ${APP}-${COMPONENT}
+      name: ${APP}-${COMPONENT}
+    spec:
+      output:
+        to:
+          kind: ImageStreamTag
+          name: ${APP}-${COMPONENT}:${IMG_IS_TAG}
+      resources:
+        limits:
+          memory: 4Gi
+        requests:
+          memory: 2Gi
+      selector:
+        app: ${APP}-${COMPONENT}
+        deploymentconfig: ${APP}-${COMPONENT}
+      source:
+        dockerfile: |
+          FROM node:10
 
-      WORKDIR /web-frontend
-      RUN git clone https://gitlab.com/bramw/baserow.git /tmp/baserow && \
-          cp -rT /tmp/baserow/web-frontend . && \
-          rm -rf /tmp/baserow
+          WORKDIR /web-frontend
+          RUN git clone ${SRC_GIT_URL} /tmp/baserow && \
+              cp -rT /tmp/baserow/web-frontend . && \
+              rm -rf /tmp/baserow
 
-      RUN npm install
-      RUN npm run build
+          RUN npm install
+          RUN npm run build
 
-      RUN mkdir /.npm && \
-          chown -R 1000870000:0 /.npm && \
-          chmod -R 777 /web-frontend
+          RUN mkdir /.npm && \
+              chown -R 1000870000:0 /.npm && \
+              chmod -R 777 /web-frontend
 
-      CMD npm run start
+          CMD npm run start
 
-    type: Dockerfile
-  strategy:
-    dockerStrategy:
-      from:
-        kind: DockerImage
-        name: node:10
-    type: Docker
-  triggers:
-    - type: ConfigChange
-    - imageChange: {}
-      type: ImageChange
+        type: Dockerfile
+      strategy:
+        dockerStrategy:
+          from:
+            kind: DockerImage
+            name: node:${IMG_SRC_TAG}
+        type: Docker
+      triggers:
+        - type: ConfigChange
+        - imageChange: {}
+          type: ImageChange
