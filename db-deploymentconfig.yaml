@@ -8,8 +8,6 @@ parameters:
     value: database
   - name: IMG_TAG
     value: latest
-# metadata:
-#   name: ${APP}-${COMPONENT}
 labels:
   app: ${APP}
   component: ${COMPONENT}
@@ -21,14 +19,8 @@ objects:
       database-user: YmFzZXJvdw==
     kind: Secret
     metadata:
-      # annotations:
-      #   template.openshift.io/expose-database_name: "{.data['database-name']}"
-      #   template.openshift.io/expose-password: "{.data['database-password']}"
-      #   template.openshift.io/expose-username: "{.data['database-user']}"
       labels:
         app: ${APP}
-        # template: postgresql-persistent-template
-        # template.openshift.io/template-instance-owner: 8418840b-2f9b-11eb-9613-0050568348cc
       name: ${APP}-${COMPONENT}
     type: Opaque
   - apiVersion: v1
