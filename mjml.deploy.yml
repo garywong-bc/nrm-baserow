@@ -6,8 +6,12 @@ parameters:
     value: baserow
   - name: COMPONENT
     value: mjml
-  - name: IMG_TAG
-    value: latest
+  - name: SRC_TAG
+    value: "10"
+  - name: SRC_NAMESPACE
+    value: csnr-devops-lab-deploy
+  - name: SRC_REGISTRY
+    value: docker-registry.default.svc:5000
 labels:
   app: ${APP}
   component: ${COMPONENT}
@@ -33,7 +37,8 @@ objects:
             deploymentconfig: ${APP}-${COMPONENT}
         spec:
           containers:
-            - image: liminspace/mjml-tcpserver:${IMG_TAG}
+            - image: ${SRC_REGISTRY}/${SRC_NAMESPACE}/${APP}-${COMPONENT}:${SRC_TAG}
+              imagePullPolicy: Always
               name: ${APP}-${COMPONENT}
               ports:
                 - containerPort: 28101
@@ -48,15 +53,9 @@ objects:
               - ${APP}-${COMPONENT}
             from:
               kind: ImageStreamTag
-              name: ${APP}-${COMPONENT}:${IMG_TAG}
+              name: ${APP}-${COMPONENT}:${SRC_TAG}
+              namespace: ${SRC_NAMESPACE}
           type: ImageChange
-    status:
-      availableReplicas: 0
-      latestVersion: 0
-      observedGeneration: 0
-      replicas: 0
-      unavailableReplicas: 0
-      updatedReplicas: 0
   - apiVersion: v1
     kind: Service
     metadata:

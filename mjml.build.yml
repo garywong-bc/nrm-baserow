@@ -6,8 +6,10 @@ parameters:
     value: baserow
   - name: COMPONENT
     value: mjml
-  - name: IMG_TAG
-    value: latest
+  - name: IMG_SRC_REPO
+    value: docker.io/liminspace/mjml-tcpserver
+  - name: IMG_SRC_TAG
+    value: "10"
 labels:
   app: ${APP}
   component: ${COMPONENT}
@@ -15,18 +17,13 @@ objects:
   - apiVersion: v1
     kind: ImageStream
     metadata:
-      labels:
-        app: ${APP}
-        component: ${APP}-${COMPONENT}
       name: ${APP}-${COMPONENT}
     spec:
-      lookupPolicy:
-        local: false
       tags:
         - from:
             kind: DockerImage
-            name: docker.io/liminspace/mjml-tcpserver:${IMG_TAG}
+            name: ${IMG_SRC_REPO}
           importPolicy: {}
-          name: latest
+          name: ${IMG_SRC_TAG}
           referencePolicy:
-            type: ""
+            type: Source
