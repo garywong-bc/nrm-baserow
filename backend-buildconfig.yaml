@@ -15,6 +15,13 @@ parameters:
     value: https://gitlab.com/bramw/baserow.git
 objects:
   - apiVersion: v1
+    kind: ImageStream
+    metadata:
+      labels:
+        app: ${APP}
+        component: ${APP}-${COMPONENT}
+      name: ${APP}-${COMPONENT}
+  - apiVersion: v1
     kind: BuildConfig
     metadata:
       labels:
