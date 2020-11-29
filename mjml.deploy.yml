@@ -13,24 +13,6 @@ labels:
   component: ${COMPONENT}
 objects:
   - apiVersion: v1
-    kind: ImageStream
-    metadata:
-      labels:
-        app: ${APP}
-        component: ${APP}-${COMPONENT}
-      name: ${APP}-${COMPONENT}
-    spec:
-      lookupPolicy:
-        local: false
-      tags:
-        - from:
-            kind: DockerImage
-            name: docker.io/liminspace/mjml-tcpserver:${IMG_TAG}
-          importPolicy: {}
-          name: latest
-          referencePolicy:
-            type: ""
-  - apiVersion: v1
     kind: DeploymentConfig
     metadata:
       labels:
