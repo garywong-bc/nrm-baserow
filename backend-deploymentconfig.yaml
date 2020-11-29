@@ -1,102 +1,134 @@
+---
 apiVersion: v1
-kind: DeploymentConfig
+kind: Template
 metadata:
-  labels:
-    app: baserow
-    component: baserow-backend
-  name: baserow-backend
-spec:
-  replicas: 1
-  selector:
-    app: baserow
-    deploymentconfig: baserow-backend
-  strategy:
-    resources: {}
-    type: Recreate
-    recreateParams:
-      timeoutSeconds: 900
-      mid:
-        failurePolicy: Abort
-        execNewPod:
-          command:
-            - "python"
-            - "/backend/src/baserow/manage.py"
-            - "migrate"
-        containerName: baserow-backend-migrate
-        env:
-          - name: POSTGRESQL_USER
-            valueFrom:
-              secretKeyRef:
-                key: database-user
-                name: baserow-db
-          - name: POSTGRESQL_PASSWORD
-            valueFrom:
-              secretKeyRef:
-                key: database-password
-                name: baserow-db
-          - name: POSTGRESQL_DATABASE
-            valueFrom:
-              secretKeyRef:
-                key: database-name
-                name: baserow-db
-          - name: DATABASE_HOST
-            value: baserow-db
-    resources: {}
-    activeDeadlineSeconds: 21600
-  template:
+  name: ${APP}-${COMPONENT}
+labels:
+  app: ${APP}
+  component: ${COMPONENT}
+parameters:
+  - name: APP
+    value: baserow
+  - name: COMPONENT
+    value: backend
+  - name: IMG_TAG
+    value: latest
+  - name: APP_PORT
+    value: "8000"
+  - name: APP_NAMESPACE
+    value: csnr-devops-lab-deploy
+  - name: WEB_FRONTEND_NAMESPACE
+    value: csnr-devops-lab-deploy
+  - name: WEB_FRONTEND_COMPONENT
+    value: web-frontend
+  - name: DOMAIN
+    value: pathfinder.gov.bc.ca
+  - name: DATABASE_COMPONENT
+    value: db
+  - name: MJML_COMPONENT
+    value: mjml
+  - name: SRC_GIT_URL
+    value: https://gitlab.com/bramw/baserow.git
+objects:
+  - apiVersion: v1
+    kind: DeploymentConfig
     metadata:
       labels:
-        app: baserow
-        deploymentconfig: baserow-backend
+        app: ${APP}
+        component: ${APP}-${COMPONENT}
+      name: ${APP}-${COMPONENT}
     spec:
-      containers:
-        - env:
-            - name: POSTGRESQL_USER
-              valueFrom:
-                secretKeyRef:
-                  key: database-user
-                  name: baserow-db
-            - name: POSTGRESQL_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  key: database-password
-                  name: baserow-db
-            - name: POSTGRESQL_DATABASE
-              valueFrom:
-                secretKeyRef:
-                  key: database-name
-                  name: baserow-db
-            - name: DATABASE_HOST
-              value: baserow-db
-            - name: MJML_SERVER_HOST
-              value: baserow-mjml
-            - name: PUBLIC_WEB_FRONTEND_URL
-              value: http://baserow-web-frontend:3000
-            - name: PUBLIC_BACKEND_URL
-              value: https://baserow-backend-csnr-devops-lab-deploy.pathfinder.gov.bc.ca
-            - name: PRIVATE_BACKEND_URL
-              value: http://baserow-backend:8000
-          image: ' '
-          name: baserow-backend
-          ports:
-            - containerPort: 8000
-          resources: {}
-      restartPolicy: Always
-  test: false
-  triggers:
-    - type: ConfigChange
-    - imageChangeParams:
-        automatic: true
-        containerNames:
-          - baserow-backend
-        from:
-          kind: ImageStreamTag
-          name: baserow-backend:latest
-      type: ImageChange
-status:
-  availableReplicas: 0
-  latestVersion: 0
-  observedGeneration: 0
-  replicas: 0
-  unavailableReplicas: 0
-  updatedReplicas: 0
+      replicas: 1
+      selector:
+        app: ${APP}
+        deploymentconfig: ${APP}-${COMPONENT}
+      strategy:
+        resources: {}
+        type: Recreate
+        recreateParams:
+          timeoutSeconds: 900
+          mid:
+            failurePolicy: Abort
+            execNewPod:
+              command:
+                - "python"
+                - "/backend/src/baserow/manage.py"
+                - "migrate"
+            containerName: ${APP}-${COMPONENT}-migrate
+            env:
+              - name: POSTGRESQL_USER
+                valueFrom:
+                  secretKeyRef:
+                    key: database-user
+                    name: ${APP}-${DATABASE_COMPONENT}
+              - name: POSTGRESQL_PASSWORD
+                valueFrom:
+                  secretKeyRef:
+                    key: database-password
+                    name: ${APP}-${DATABASE_COMPONENT}
+              - name: POSTGRESQL_DATABASE
+                valueFrom:
+                  secretKeyRef:
+                    key: database-name
+                    name: ${APP}-${DATABASE_COMPONENT}
+              - name: DATABASE_HOST
+                value: ${APP}-${DATABASE_COMPONENT}
+        resources: {}
+        activeDeadlineSeconds: 21600
+      template:
+        metadata:
+          labels:
+            app: ${APP}
+            deploymentconfig: ${APP}-${COMPONENT}
+        spec:
+          containers:
+            - env:
+                - name: POSTGRESQL_USER
+                  valueFrom:
+                    secretKeyRef:
+                      key: database-user
+                      name: ${APP}-${DATABASE_COMPONENT}
+                - name: POSTGRESQL_PASSWORD
+                  valueFrom:
+                    secretKeyRef:
+                      key: database-password
+                      name: ${APP}-${DATABASE_COMPONENT}
+                - name: POSTGRESQL_DATABASE
+                  valueFrom:
+                    secretKeyRef:
+                      key: database-name
+                      name: ${APP}-${DATABASE_COMPONENT}
+                - name: DATABASE_HOST
+                  value: ${APP}-${DATABASE_COMPONENT}
+                - name: MJML_SERVER_HOST
+                  value: ${APP}-${MJML_COMPONENT}
+                - name: PUBLIC_WEB_FRONTEND_URL
+                  value: https://${APP}-${WEB_FRONTEND_COMPONENT}-${WEB_FRONTEND_NAMESPACE}.${DOMAIN}
+                - name: PUBLIC_BACKEND_URL
+                  value: https://${APP}-${COMPONENT}-${BACKEND_NAMESPACE}.${DOMAIN}
+                - name: PRIVATE_BACKEND_URL
+                  value: http://${APP}-${COMPONENT}:${APP_PORT}
+              image: ' '
+              name: ${APP}-${COMPONENT}
+              ports:
+                - containerPort: ${APP_PORT}
+              resources: {}
+          restartPolicy: Always
+      test: false
+      triggers:
+        - type: ConfigChange
+        - imageChangeParams:
+            automatic: true
+            containerNames:
+              - ${APP}-${COMPONENT}
+            from:
+              kind: ImageStreamTag
+              name: ${APP}-${COMPONENT}:${IMG_TAG}
+          type: ImageChange
+    status:
+      availableReplicas: 0
+      latestVersion: 0
+      observedGeneration: 0
+      replicas: 0
+      unavailableReplicas: 0
+      updatedReplicas: 0

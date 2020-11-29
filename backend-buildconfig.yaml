@@ -11,6 +11,8 @@ parameters:
     value: baserow
   - name: COMPONENT
     value: backend
+  - name: IMG_TAG
+    value: latest
   - name: SRC_GIT_URL
     value: https://gitlab.com/bramw/baserow.git
 objects:
@@ -32,7 +34,7 @@ objects:
       output:
         to:
           kind: ImageStreamTag
-          name: ${APP}-${COMPONENT}:latest
+          name: ${APP}-${COMPONENT}:${IMG_TAG}
       selector:
         app: ${APP}-${COMPONENT}
         deploymentconfig: ${APP}-${COMPONENT}
