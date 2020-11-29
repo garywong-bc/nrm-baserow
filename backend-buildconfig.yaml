@@ -18,7 +18,7 @@ spec:
       FROM python:3.6
 
       WORKDIR /backend
-      RUN git clone https://github.com/derekroberts/baserow.git /tmp/baserow && \
+      RUN git clone https://gitlab.com/bramw/baserow.git /tmp/baserow && \
           cp -rT /tmp/baserow/backend . && \
           rm -rf /tmp/baserow && \
           chmod -R 777 .
