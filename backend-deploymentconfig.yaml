@@ -24,7 +24,7 @@ parameters:
   - name: DOMAIN
     value: pathfinder.gov.bc.ca
   - name: DATABASE_COMPONENT
-    value: db
+    value: database
   - name: MJML_COMPONENT
     value: mjml
   - name: SRC_GIT_URL
