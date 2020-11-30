@@ -41,7 +41,7 @@ objects:
       replicas: 1
       selector:
         app: ${APP}
-        deploymentconfig: ${APP}-${COMPONENT}
+        component: ${COMPONENT}
       strategy:
         resources: {}
         type: Recreate
@@ -60,7 +60,7 @@ objects:
         metadata:
           labels:
             app: ${APP}
-            deploymentconfig: ${APP}-${COMPONENT}
+            component: ${COMPONENT}
         spec:
           containers:
             - env:
@@ -118,7 +118,7 @@ objects:
           port: ${{APP_PORT}}
       selector:
         app: ${APP}
-        deploymentconfig: ${APP}-${COMPONENT}
+        component: ${COMPONENT}
   - apiVersion: v1
     kind: Route
     metadata:

@@ -27,14 +27,14 @@ objects:
       replicas: 1
       selector:
         app: ${APP}
-        deploymentconfig: ${APP}-${COMPONENT}
+        component: ${COMPONENT}
       strategy:
         resources: {}
       template:
         metadata:
           labels:
             app: ${APP}
-            deploymentconfig: ${APP}-${COMPONENT}
+            component: ${COMPONENT}
         spec:
           containers:
             - image: ${SRC_REGISTRY}/${SRC_NAMESPACE}/${APP}-${COMPONENT}:${SRC_TAG}
@@ -70,4 +70,4 @@ objects:
           targetPort: 28101
       selector:
         app: ${APP}
-        deploymentconfig: ${APP}-${COMPONENT}
+        component: ${COMPONENT}

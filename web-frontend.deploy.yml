@@ -33,14 +33,14 @@ objects:
       replicas: 1
       selector:
         app: ${APP}
-        deploymentconfig: ${APP}-${COMPONENT}
+        component: ${COMPONENT}
       strategy:
         resources: {}
       template:
         metadata:
           labels:
             app: ${APP}
-            deploymentconfig: ${APP}-${COMPONENT}
+            component: ${COMPONENT}
         spec:
           containers:
             - env:
@@ -80,7 +80,7 @@ objects:
           port: ${{PORT}}
       selector:
         app: ${APP}
-        deploymentconfig: ${APP}-${COMPONENT}
+        component: ${COMPONENT}
   - apiVersion: v1
     kind: Route
     metadata:

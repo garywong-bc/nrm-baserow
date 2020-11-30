@@ -50,7 +50,7 @@ objects:
       revisionHistoryLimit: 10
       selector:
         app: ${APP}
-        deploymentconfig: ${APP}-${COMPONENT}
+        component: ${COMPONENT}
       strategy:
         activeDeadlineSeconds: 21600
         recreateParams:
@@ -62,7 +62,7 @@ objects:
           creationTimestamp: null
           labels:
             app: ${APP}
-            deploymentconfig: ${APP}-${COMPONENT}
+            component: ${COMPONENT}
         spec:
           containers:
             - env:
@@ -151,4 +151,4 @@ objects:
           port: 5432
       selector:
         app: ${APP}
-        deploymentconfig: ${APP}-${COMPONENT}
+        component: ${COMPONENT}

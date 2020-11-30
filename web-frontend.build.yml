@@ -44,7 +44,7 @@ objects:
           memory: 2Gi
       selector:
         app: ${APP}-${COMPONENT}
-        deploymentconfig: ${APP}-${COMPONENT}
+        component: ${COMPONENT}
       source:
         dockerfile: |
           FROM docker-registry.default.svc:5000/openshift/nodejs:10
