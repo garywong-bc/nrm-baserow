@@ -11,12 +11,20 @@ parameters:
     value: baserow
   - name: COMPONENT
     value: backend
-  - name: IMG_TAG
+  - name: BUILD_TAG
     value: latest
-  - name: SRC_GIT_URL
+  - name: IMG_SRC_TAG
+    value: "3.6"
+  - name: IMG_SRC_NAME
+    value: python
+  - name: IMG_SRC_NAMESPACE
+    value: openshift
+  - name: IMG_SRC_REPO
+    value: docker-registry.default.svc:5000
+  - name: CLONE_GIT_RELEASE
+    value: "0.5.0"
+  - name: CLONE_GIT_URL
     value: https://gitlab.com/bramw/baserow.git
-  - name: SRC_RELEASE
-    value: 0.5.0
 objects:
   - apiVersion: v1
     kind: ImageStream
@@ -36,36 +44,27 @@ objects:
       output:
         to:
           kind: ImageStreamTag
-          name: ${APP}-${COMPONENT}:${IMG_TAG}
-      selector:
-        app: ${APP}-${COMPONENT}
-        deploymentconfig: ${APP}-${COMPONENT}
+          name: ${APP}-${COMPONENT}:${BUILD_TAG}
       source:
         dockerfile: |
-          FROM python:3.6
+          FROM ${IMG_SRC_REPO}/${IMG_SRC_NAMESPACE}/${IMG_SRC_NAME}:${IMG_SRC_TAG}
 
-          WORKDIR /backend
-          RUN git clone ${SRC_GIT_URL} -b ${SRC_RELEASE} /tmp/baserow && \
-              cp -rT /tmp/baserow/backend . && \
-              rm -rf /tmp/baserow && \
-              chmod -R 777 .
-
-          ENV PYTHONPATH $PYTHONPATH:/backend/src
+          ENV PYTHONPATH $PYTHONPATH/backend/src
           ENV DJANGO_SETTINGS_MODULE='baserow.config.settings.dev'
 
-          RUN apt-get update
-          RUN apt-get -y install make gnupg2
+          USER root
+          RUN yum install -y gnupg2 postgresql postgresql-contrib postgresql-libs
 
-          RUN make install-dependencies
+          WORKDIR /backend
+          RUN git clone ${CLONE_GIT_URL} -b ${CLONE_GIT_RELEASE} /tmp/baserow && \
+              cp -rT /tmp/baserow/backend . && \
+              rm -rf /tmp/baserow
+          RUN pip3 install -r ./requirements/base.txt
 
           CMD gunicorn --workers=3 -b 0.0.0.0:8000 baserow.config.wsgi
 
         type: Dockerfile
       strategy:
-        dockerStrategy:
-          from:
-            kind: DockerImage
-            name: python:3.6
         type: Docker
       triggers:
         - type: ConfigChange
