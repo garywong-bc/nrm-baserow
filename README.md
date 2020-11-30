@@ -34,6 +34,48 @@ It is possible, but not advisable, to process and apply all templates at once.  
 for i in $(ls *.yml); do (oc process -f $i | oc apply -f -); done
 ```
 
+### Labels
+
+The default labels app=baserow and component=<component> are assigned to all objects.  This is useful for troubleshooting.
+
+#### Object grouping
+
+View a summary of the entire stack and associated objects.
+
+```
+oc get all,pvc -l app=baserow
+```
+
+View each group of component objects separately.  These are backend, database, mjml and web-frontend.
+
+```
+oc get all,pvc -l app=baserow -l component=backend
+oc get all,pvc -l app=baserow -l component=database
+oc get all,pvc -l app=baserow -l component=mjml
+oc get all,pvc -l app=baserow -l component=web-frontend
+```
+
+### Removal
+
+#### Removal
+
+The entire stack and all associated objects can be deleted.  This is useful for testing and starting over from scratch.
+
+Stack deletion.
+
+```
+oc delete all,pvc -l app=baserow
+```
+
+Component deletion.
+
+```
+oc delete all,pvc -l app=baserow -l component=backend
+oc delete all,pvc -l app=baserow -l component=database
+oc delete all,pvc -l app=baserow -l component=mjml
+oc delete all,pvc -l app=baserow -l component=web-frontend
+```
+
 ### Reference
 
 [Repository](https://gitlab.com/bramw/baserow)
@@ -55,9 +97,10 @@ To do:
 
 1. Close the backend private port.  Traffic through the private port is currently failing.
 2. Deployment across namespaces has not been verified.
-3. Backend ALLOWED_HOSTS are not being updated.  A workaround uses the ALLOWED_HOSTS_FIX in backend.build.yml.
+3. Backend ALLOWED_HOSTS are not being updated.  A workaround uses the ALLOWED_HOSTS_FIX variable in backend.build.yml.
 4. Use more secure passwords.  The database is currently using `baserow` for the username, password and db name.
 5. mjml has not been tested.
 6. OpenShift Overview Panel does not usually link to the web-frontend.
 7. Backend liveness probe is causing restarts.  It has temporarily been commented out.
-8. There's always something else!
+8. Backend and web-frontend are using :latest tags.  Please specify a stable release number for production.
+9. There's always something else!
