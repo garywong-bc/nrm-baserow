@@ -98,16 +98,16 @@ objects:
               name: ${APP}-${COMPONENT}
               ports:
                 - containerPort: ${{APP_PORT}}
-              livenessProbe:
-                httpGet:
-                  path: "/_health"
-                  port: 3000
-                  scheme: HTTP
-                initialDelaySeconds: 10
-                timeoutSeconds: 2
-                periodSeconds: 10
-                successThreshold: 1
-                failureThreshold: 10
+              # livenessProbe:
+              #   httpGet:
+              #     path: "/_health"
+              #     port: 3000
+              #     scheme: HTTP
+              #   initialDelaySeconds: 10
+              #   timeoutSeconds: 2
+              #   periodSeconds: 10
+              #   successThreshold: 1
+              #   failureThreshold: 10
           restartPolicy: Always
           restartPolicy: Always
       test: false
