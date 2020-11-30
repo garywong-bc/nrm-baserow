@@ -58,4 +58,6 @@ To do:
 3. Backend ALLOWED_HOSTS are not being updated.  A workaround uses the ALLOWED_HOSTS_FIX in backend.build.yml.
 4. Use more secure passwords.  The database is currently using `baserow` for the username, password and db name.
 5. mjml has not been tested.
-6. There's always something else!
+6. OpenShift Overview Panel does not usually link to the web-frontend.
+7. Backend liveness probe is causing restarts.  It has temporarily been commented out.
+8. There's always something else!
