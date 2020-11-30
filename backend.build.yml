@@ -21,6 +21,10 @@ parameters:
     value: openshift
   - name: IMG_SRC_REPO
     value: docker-registry.default.svc:5000
+  - name: DEPLOY_NAMESPACE
+    value: csnr-devops-lab-deploy
+  - name: DOMAIN
+    value: pathfinder.gov.bc.ca
   - name: CLONE_GIT_RELEASE
     value: "0.5.0"
   - name: CLONE_GIT_URL
@@ -60,6 +64,11 @@ objects:
               cp -rT /tmp/baserow/backend . && \
               rm -rf /tmp/baserow
           RUN pip3 install -r ./requirements/base.txt
+
+          # Bug - URLs not automatically being added to ALLOWED_HOSTS
+          ENV ALLOWED_HOSTS_FIX=${APP}-${COMPONENT}-${DEPLOY_NAMESPACE}.${DOMAIN}
+          RUN sed -i "/^ALLOWED_HOSTS =.*/a ALLOWED_HOSTS.append(\'${ALLOWED_HOSTS_FIX}\')" \
+                src/baserow/config/settings/base.py
 
           CMD gunicorn --workers=3 -b 0.0.0.0:8000 baserow.config.wsgi
 
