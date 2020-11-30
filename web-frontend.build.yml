@@ -47,33 +47,26 @@ objects:
         deploymentconfig: ${APP}-${COMPONENT}
       source:
         dockerfile: |
-          FROM node:10
+          FROM docker-registry.default.svc:5000/openshift/nodejs:10
 
+          USER root
           WORKDIR /web-frontend
-          RUN git clone ${SRC_GIT_URL} -b ${SRC_RELEASE} /tmp/baserow && \
+
+          RUN git clone https://gitlab.com/bramw/baserow.git /tmp/baserow && \
               cp -rT /tmp/baserow/web-frontend . && \
               rm -rf /tmp/baserow
-
-          RUN apt-get update
-          RUN apt-get -y install make curl gnupg2
-
-          # Bug workaround (FATAL Vue packages version mismatch)
-          RUN npm install vue-server-renderer@2.6.12 --save
-          RUN npm install
-          RUN npm run build
 
           RUN mkdir /.npm && \
               chown -R 1000870000:0 /.npm && \
               chmod -R 777 /web-frontend
 
+          RUN npm install
+          RUN npm run build
+
           CMD npm run start
 
         type: Dockerfile
       strategy:
-        dockerStrategy:
-          from:
-            kind: DockerImage
-            name: node:${IMG_SRC_TAG}
         type: Docker
       triggers:
         - type: ConfigChange
