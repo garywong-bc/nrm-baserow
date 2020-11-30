@@ -61,6 +61,12 @@ objects:
             app: ${APP}
             component: ${COMPONENT}
         spec:
+          initContainers:
+            - name: ${APP}-${DATABASE_COMPONENT}-ready
+              image: postgres:10
+              command: ['sh', '-c', 
+                "until pg_isready -h ${APP}-${DATABASE_COMPONENT} -p 5432 -U postgres; 
+                do echo waiting for database; sleep 2; done;"]
           containers:
             - env:
                 - name: POSTGRESQL_USER
