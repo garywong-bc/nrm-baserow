@@ -11,6 +11,8 @@ parameters:
     value: baserow
   - name: COMPONENT
     value: backend
+  - name: COMPONENT_FRONTEND
+    value: web-frontend
   - name: BUILD_TAG
     value: latest
   - name: IMG_SRC_TAG
@@ -66,7 +68,7 @@ objects:
           RUN pip3 install -r ./requirements/base.txt
 
           # Bug - URLs not automatically being added to ALLOWED_HOSTS
-          ENV ALLOWED_HOSTS_FIX=${APP}-${COMPONENT}-${DEPLOY_NAMESPACE}.${DOMAIN}
+          ENV ALLOWED_HOSTS_FIX=${APP}-${COMPONENT_FRONTEND}-${DEPLOY_NAMESPACE}.${DOMAIN}
           RUN sed -i "/^ALLOWED_HOSTS =.*/a ALLOWED_HOSTS.append(\'${ALLOWED_HOSTS_FIX}\')" \
                 src/baserow/config/settings/base.py
 
