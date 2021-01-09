@@ -20,11 +20,11 @@ parameters:
   - name: IMG_SRC_NAMESPACE
     value: openshift
   - name: IMG_SRC_REPO
-    value: docker-registry.default.svc:5000
+    value: image-registry.openshift-image-registry.svc:5000
   - name: DEPLOY_NAMESPACE
-    value: csnr-devops-lab-deploy
+    value: 245e18-dev
   - name: DOMAIN
-    value: pathfinder.gov.bc.ca
+    value: apps.silver.devops.gov.bc.ca
   - name: CLONE_GIT_RELEASE
     value: "0.5.0"
   - name: CLONE_GIT_URL

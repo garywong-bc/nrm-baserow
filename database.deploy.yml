@@ -7,7 +7,7 @@ parameters:
   - name: COMPONENT
     value: database
   - name: IMG_TAG
-    value: latest
+    value: "10"
 labels:
   app: ${APP}
   component: ${COMPONENT}
@@ -81,7 +81,7 @@ objects:
                     secretKeyRef:
                       key: database-name
                       name: ${APP}-${COMPONENT}
-              image: docker-registry.default.svc:5000/openshift/postgresql@sha256:094097e33f6d3cd498194ad7dc7bdb32f3d62b6a56ad8ae425770cd4050ad611
+              image: image-registry.openshift-image-registry.svc:5000/openshift/postgresql:10
               imagePullPolicy: IfNotPresent
               livenessProbe:
                 exec:

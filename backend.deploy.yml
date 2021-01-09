@@ -16,13 +16,13 @@ parameters:
   - name: APP_PORT
     value: "8000"
   - name: APP_NAMESPACE
-    value: csnr-devops-lab-deploy
+    value: 245e18-dev
   - name: WEB_FRONTEND_NAMESPACE
-    value: csnr-devops-lab-deploy
+    value: 245e18-dev
   - name: WEB_FRONTEND_COMPONENT
     value: web-frontend
   - name: DOMAIN
-    value: pathfinder.gov.bc.ca
+    value: apps.silver.devops.gov.bc.ca
   - name: DATABASE_COMPONENT
     value: database
   - name: MJML_COMPONENT

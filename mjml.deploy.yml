@@ -9,9 +9,9 @@ parameters:
   - name: SRC_TAG
     value: "10"
   - name: SRC_NAMESPACE
-    value: csnr-devops-lab-deploy
+    value: 245e18-dev
   - name: SRC_REGISTRY
-    value: docker-registry.default.svc:5000
+    value: image-registry.openshift-image-registry.svc:5000
 labels:
   app: ${APP}
   component: ${COMPONENT}
