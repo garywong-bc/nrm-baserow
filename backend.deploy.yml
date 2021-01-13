@@ -27,10 +27,10 @@ parameters:
     value: database
   - name: MJML_COMPONENT
     value: mjml
-  - name: SRC_GIT_URL_UPSTREAM
-    value: https://gitlab.com/bramw/baserow.git
   - name: SRC_GIT_URL
-    value: https://gitlab.com/garywong/baserow.git
+    value: https://gitlab.com/bramw/baserow.git
+  # - name: SRC_GIT_URL
+  #   value: https://gitlab.com/garywong/baserow.git
 objects:
   - apiVersion: v1
     kind: DeploymentConfig

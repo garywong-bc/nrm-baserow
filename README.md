@@ -8,9 +8,15 @@ These are templates used to deploy baserow to the BC Government's OpenShift clus
 
 ### Installation
 
-#### Recommended
+#### Network Security Policies
 
-oc -n 245e18-dev process -f https://raw.githubusercontent.com/BCDevOps/platform-services/master/security/aporeto/docs/sample/quickstart-nsp.yaml NAMESPACE=245e18-dev | oc -n 245e18-dev create -f -
+Ensure the NSP has been created in each of `-dev`, `-test`, `-prod`,. For example:
+
+```bash
+oc -n <namespace> process -f https://raw.githubusercontent.com/BCDevOps/platform-services/master/security/aporeto/docs/sample/quickstart-nsp.yaml NAMESPACE=245e18-dev | oc -n <namespace> create -f -
+```
+
+#### Recommended
 
 Process and apply build templates.
 
@@ -23,8 +29,8 @@ oc -n <namespace> process -f web-frontend.build.yml | oc apply -f -
 Process and apply deploy templates.
 
 ```bash
-oc -n <namespace> process -f backend.deploy.yml | oc apply -f -
 oc -n <namespace> process -f database.deploy.yml | oc apply -f -
+oc -n <namespace> process -f backend.deploy.yml | oc apply -f -
 oc -n <namespace> process -f mjml.deploy.yml | oc apply -f -
 oc -n <namespace> process -f web-frontend.deploy.yml | oc apply -f -
 ```
@@ -64,19 +70,20 @@ oc get all,pvc -l app=baserow -l component=web-frontend
 
 The entire stack and all associated objects can be deleted. This is useful for testing and starting over from scratch.
 
-Stack deletion.
+Entire stack deletion.
 
 ```
-oc delete all,pvc -l app=baserow
+oc -n <namespace> delete all,pvc -l app=baserow
+oc -n <namespace> delete secret/baserow-database
 ```
 
 Component deletion.
 
 ```
-oc delete all,pvc -l app=baserow -l component=backend
-oc delete all,pvc -l app=baserow -l component=database
-oc delete all,pvc -l app=baserow -l component=mjml
-oc delete all,pvc -l app=baserow -l component=web-frontend
+oc -n <namespace> delete all,pvc -l app=baserow -l component=backend
+oc -n <namespace> delete all,pvc -l app=baserow -l component=database
+oc -n <namespace> delete all,pvc -l app=baserow -l component=mjml
+oc -n <namespace> delete all,pvc -l app=baserow -l component=web-frontend
 ```
 
 ### Reference

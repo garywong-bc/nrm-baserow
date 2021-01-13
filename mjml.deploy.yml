@@ -7,7 +7,7 @@ parameters:
   - name: COMPONENT
     value: mjml
   - name: SRC_TAG
-    value: "10"
+    value: "0.10"
   - name: SRC_NAMESPACE
     value: 245e18-dev
   - name: SRC_REGISTRY
@@ -43,6 +43,8 @@ objects:
               ports:
                 - containerPort: 28101
               resources: {}
+          imagePullSecrets:
+          - name: docker-pull-passthru
           restartPolicy: Always
       test: false
       triggers:

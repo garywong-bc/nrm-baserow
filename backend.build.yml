@@ -11,8 +11,6 @@ parameters:
     value: baserow
   - name: COMPONENT
     value: backend
-  - name: COMPONENT_FRONTEND
-    value: web-frontend
   - name: BUILD_TAG
     value: latest
   - name: IMG_SRC_TAG
@@ -27,14 +25,14 @@ parameters:
     value: 245e18-dev
   - name: DOMAIN
     value: apps.silver.devops.gov.bc.ca
-  - name: CLONE_GIT_RELEASE_UPSTREAM
-    value: "0.5.0"
-  - name: CLONE_GIT_URL_UPSTREAM
-    value: https://gitlab.com/bramw/baserow.git
   - name: CLONE_GIT_RELEASE
-    value: "feature/debug"    
+    value: "0.5.0"
   - name: CLONE_GIT_URL
-    value: https://gitlab.com/garywong/baserow.git
+    value: https://gitlab.com/bramw/baserow.git
+  # - name: CLONE_GIT_RELEASE
+  #   value: "feature/debug"    
+  # - name: CLONE_GIT_URL
+  #   value: https://gitlab.com/garywong/baserow.git
 objects:
   - apiVersion: v1
     kind: ImageStream
@@ -72,8 +70,7 @@ objects:
           RUN pip3 install -r ./requirements/base.txt
 
           # Bug - URLs not automatically being added to ALLOWED_HOSTS
-          # ENV ALLOWED_HOSTS_FIX=${APP}-${COMPONENT_FRONTEND}-${DEPLOY_NAMESPACE}.${DOMAIN}
-          ENV ALLOWED_HOSTS_FIX=baserow-web-frontend
+          ENV ALLOWED_HOSTS_FIX=${APP}-${COMPONENT}-${DEPLOY_NAMESPACE}.${DOMAIN}
           RUN sed -i "/^ALLOWED_HOSTS =.*/a ALLOWED_HOSTS.append(\'${ALLOWED_HOSTS_FIX}\')" \
                 src/baserow/config/settings/base.py
           CMD gunicorn --workers=3 -b 0.0.0.0:8000 baserow.config.wsgi
