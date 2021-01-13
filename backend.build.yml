@@ -29,10 +29,6 @@ parameters:
     value: "0.5.0"
   - name: CLONE_GIT_URL
     value: https://gitlab.com/bramw/baserow.git
-  # - name: CLONE_GIT_RELEASE
-  #   value: "feature/debug"    
-  # - name: CLONE_GIT_URL
-  #   value: https://gitlab.com/garywong/baserow.git
 objects:
   - apiVersion: v1
     kind: ImageStream

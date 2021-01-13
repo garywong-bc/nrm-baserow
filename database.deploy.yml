@@ -8,21 +8,26 @@ parameters:
     value: database
   - name: IMG_TAG
     value: "10"
+  - description: Password for the PostgreSQL connection user.
+    displayName: PostgreSQL Connection Password
+    from: "[a-zA-Z0-9]{16}"
+    generate: expression
+    name: POSTGRESQL_PASSWORD
+    required: true    
 labels:
   app: ${APP}
   component: ${COMPONENT}
 objects:
   - apiVersion: v1
-    data:
-      database-name: YmFzZXJvdw==
-      database-password: YmFzZXJvdw==
-      database-user: YmFzZXJvdw==
     kind: Secret
     metadata:
       labels:
         app: ${APP}
       name: ${APP}-${COMPONENT}
-    type: Opaque
+    stringData:
+      database-name: baserow
+      database-password: "${POSTGRESQL_PASSWORD}"
+      database-user: baserow
   - apiVersion: v1
     kind: PersistentVolumeClaim
     metadata:
