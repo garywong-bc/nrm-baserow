@@ -17,6 +17,10 @@ parameters:
     value: https://gitlab.com/bramw/baserow.git
   - name: SRC_RELEASE
     value: 0.5.0
+  # - name: SRC_GIT_URL
+  #   value: https://gitlab.com/garywong/baserow.git
+  # - name: SRC_RELEASE
+  #   value: "feature/debug"  
 objects:
   - apiVersion: v1
     kind: ImageStream
@@ -47,7 +51,7 @@ objects:
         component: ${COMPONENT}
       source:
         dockerfile: |
-          FROM docker-registry.default.svc:5000/openshift/nodejs:10
+          FROM image-registry.openshift-image-registry.svc:5000/openshift/nodejs:10
 
           USER root
           WORKDIR /web-frontend
@@ -60,7 +64,7 @@ objects:
               chown -R 1000870000:0 /.npm && \
               chmod -R 777 /web-frontend
 
-          RUN npm install
+          RUN npm install --unsafe-perm=true --allow-root
           RUN npm run build
 
           CMD npm run start

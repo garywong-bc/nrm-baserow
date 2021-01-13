@@ -16,19 +16,25 @@ parameters:
   - name: APP_PORT
     value: "8000"
   - name: APP_NAMESPACE
-    value: csnr-devops-lab-deploy
+    value: 245e18-dev
   - name: WEB_FRONTEND_NAMESPACE
-    value: csnr-devops-lab-deploy
+    value: 245e18-dev
   - name: WEB_FRONTEND_COMPONENT
     value: web-frontend
   - name: DOMAIN
-    value: pathfinder.gov.bc.ca
+    value: apps.silver.devops.gov.bc.ca
   - name: DATABASE_COMPONENT
     value: database
   - name: MJML_COMPONENT
     value: mjml
   - name: SRC_GIT_URL
     value: https://gitlab.com/bramw/baserow.git
+  - description: Secret Key for the Application token generator.
+    displayName: Secret Key
+    from: "[a-zA-Z0-9]{24}"
+    generate: expression
+    name: SECRET_KEY
+    required: true
 objects:
   - apiVersion: v1
     kind: DeploymentConfig
@@ -69,23 +75,15 @@ objects:
                 do echo waiting for database; sleep 2; done;"]
           containers:
             - env:
-                - name: POSTGRESQL_USER
-                  valueFrom:
-                    secretKeyRef:
-                      key: database-user
-                      name: ${APP}-${DATABASE_COMPONENT}
-                - name: POSTGRESQL_PASSWORD
+                - name: DATABASE_PASSWORD
                   valueFrom:
                     secretKeyRef:
                       key: database-password
                       name: ${APP}-${DATABASE_COMPONENT}
-                - name: POSTGRESQL_DATABASE
-                  valueFrom:
-                    secretKeyRef:
-                      key: database-name
-                      name: ${APP}-${DATABASE_COMPONENT}
                 - name: DATABASE_HOST
                   value: ${APP}-${DATABASE_COMPONENT}
+                - name: SECRET_KEY
+                  value: "${SECRET_KEY}"
                 - name: MJML_SERVER_HOST
                   value: ${APP}-${MJML_COMPONENT}
                 - name: PUBLIC_WEB_FRONTEND_URL

@@ -18,9 +18,9 @@ parameters:
   - name: BACKEND_PORT
     value: "8000"
   - name: NAMESPACE
-    value: csnr-devops-lab-deploy
+    value: 245e18-dev
   - name: DOMAIN
-    value: pathfinder.gov.bc.ca
+    value: apps.silver.devops.gov.bc.ca
 objects:
   - apiVersion: v1
     kind: DeploymentConfig
