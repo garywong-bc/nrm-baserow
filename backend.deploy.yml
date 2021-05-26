@@ -12,7 +12,7 @@ parameters:
   - name: COMPONENT
     value: backend
   - name: IMG_TAG
-    value: latest
+    value: "1.2.0"
   - name: APP_PORT
     value: "8000"
   - name: APP_NAMESPACE
