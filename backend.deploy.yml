@@ -80,6 +80,16 @@ objects:
                     secretKeyRef:
                       key: database-password
                       name: ${APP}-${DATABASE_COMPONENT}
+                - name: DATABASE_USER
+                  valueFrom:
+                    secretKeyRef:
+                      key: database-user
+                      name: ${APP}-${DATABASE_COMPONENT}
+                - name: DATABASE_NAME
+                  valueFrom:
+                    secretKeyRef:
+                      key: database-name
+                      name: ${APP}-${DATABASE_COMPONENT}
                 - name: DATABASE_HOST
                   value: ${APP}-${DATABASE_COMPONENT}
                 - name: SECRET_KEY
@@ -92,6 +102,8 @@ objects:
                   value: https://${APP}-${COMPONENT}-${APP_NAMESPACE}.${DOMAIN}
                 - name: PRIVATE_BACKEND_URL
                   value: http://${APP}-${COMPONENT}:${APP_PORT}
+                - name: DEBUG
+                  value: true
               image: " "
               name: ${APP}-${COMPONENT}
               ports:
