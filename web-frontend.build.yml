@@ -16,11 +16,7 @@ parameters:
   - name: SRC_GIT_URL
     value: https://gitlab.com/bramw/baserow.git
   - name: SRC_RELEASE
-    value: 0.5.0
-  # - name: SRC_GIT_URL
-  #   value: https://gitlab.com/garywong/baserow.git
-  # - name: SRC_RELEASE
-  #   value: "feature/debug"  
+    value: 0.7.1
 objects:
   - apiVersion: v1
     kind: ImageStream
@@ -56,7 +52,7 @@ objects:
           USER root
           WORKDIR /web-frontend
 
-          RUN git clone https://gitlab.com/bramw/baserow.git /tmp/baserow && \
+          RUN git clone ${SRC_GIT_URL} -b ${SRC_RELEASE} /tmp/baserow && \
               cp -rT /tmp/baserow/web-frontend . && \
               rm -rf /tmp/baserow
 
@@ -64,7 +60,11 @@ objects:
               chown -R 1000870000:0 /.npm && \
               chmod -R 777 /web-frontend
 
+          RUN sed 's/"nuxt": "2.12.1",/"nuxt": "2.15.2",/' package.json > package.json.updated && \
+              mv package.json.updated package.json
+
           RUN npm install --unsafe-perm=true --allow-root
+
           RUN npm run build
 
           CMD npm run start
