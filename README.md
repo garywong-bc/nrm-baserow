@@ -50,6 +50,11 @@ Process and apply deploy templates.
 oc -n <namespace> process -f database.deploy.yml     | oc apply -f -
 oc -n <namespace> process -f backend.deploy.yml      | oc apply -f -
 oc -n <namespace> process -f mjml.deploy.yml         | oc apply -f -
+```
+
+Ensure that the database pod has been deployed and is accepting connections before:
+
+```bash
 oc -n <namespace> process -f web-frontend.deploy.yml | oc apply -f -
 ```
 
