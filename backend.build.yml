@@ -26,7 +26,7 @@ parameters:
   - name: DOMAIN
     value: apps.silver.devops.gov.bc.ca
   - name: CLONE_GIT_RELEASE
-    value: "0.5.0"
+    value: "0.7.1"
   - name: CLONE_GIT_URL
     value: https://gitlab.com/bramw/baserow.git
 objects:
